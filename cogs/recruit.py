@@ -136,7 +136,7 @@ async def wait_react(ctx,msg,start_time):
             await msg.add_reaction(emoji)
         
 
-class RecruitCog(commands.Cog):
+class RecruitCog(commands.Cog,name="募集"):
     def __init__(self,bot):
         self.bot = bot      
                 
