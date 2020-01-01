@@ -19,10 +19,12 @@ class Spla(commands.Cog,name="Splatoon"):
             target.replace(hour=target.hour - target.hour%2)
             
         target_str = target.strftime("%Y-%m-%dT%H:%M%S")
-        url = ""
+        url = "https://spla2.yuu26.com/schedule"
+        
+        headers = {"User-Agent":"個人用bot [tw:@shidoro_onn]"}
         
         async with aiohttp.ClientSession() as session:
-            async with session.get(url) as r:
+            async with session.get(url,headers=headers) as r:
                 if r.status != 200:
                     await ctx.send("情報の取得に失敗しました。")
                     return
