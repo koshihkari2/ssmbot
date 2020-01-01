@@ -40,8 +40,8 @@ class Spla(commands.Cog,name="Splatoon"):
         gachi_rule = [datum["rule"] for datum in gachi_data if datum["start"] == target_str][0]
         
         league_data = data["result"]["league"]
-        gachi_stages = [datum["maps"] for datum in league_data if datum["start"] == target_str][0]
-        gachi_rule = [datum["rule"] for datum in league_data if datum["start"] == target_str][0]
+        league_stages = [datum["maps"] for datum in league_data if datum["start"] == target_str][0]
+        league_rule = [datum["rule"] for datum in league_data if datum["start"] == target_str][0]
         
         content = "__★ナワバリバトルのステージ情報★__\n"
         content += f"・**{regular_stages[0]}**\n"
