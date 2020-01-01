@@ -160,7 +160,8 @@ class RecruitCog(commands.Cog):
         """
         
         parsed = parser(start_time_and_comment)
-        comment = " ".join(start_time_and_comment.split(" ")[1:])
+        tmp = " ".join(start_time_and_comment.split(" ")[1:]) 
+        comment = tmp if tmp else "なし"
         
         if not parsed:
             await ctx.send("指定された時刻情報が不正です。")
