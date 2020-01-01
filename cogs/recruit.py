@@ -142,7 +142,7 @@ class RecruitCog(commands.Cog):
                 
 
     @commands.command(aliases=["bosyu"])
-    async def recruit(self,ctx,members_num:int,start_time_and_comment,*):
+    async def recruit(self,ctx,members_num:int,*,start_time_and_comment):
         """
         募集を行います。
         受け取る引数はメンバー数、開始時刻です。
