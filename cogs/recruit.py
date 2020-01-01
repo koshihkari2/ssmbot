@@ -72,7 +72,7 @@ async def wait_react(ctx,msg,start_time):
                 embed = msg.embeds[0]
                 
                 content = "\n".join([str(user) for user in users])
-                embed.fields[2] = content
+                embed.set_filed_at(2,name="参加者リスト",value=content,inline=False)
                 
                 await msg.edit(embed=embed)
                 
@@ -90,7 +90,7 @@ async def wait_react(ctx,msg,start_time):
                 embed = msg.embeds[0]
                 
                 content += "\n".join([str(user) for user in users])
-                embed.fields[2] = content
+                embed.set_filed_at(2,name="参加者リスト",value=content,inline=False)
                 
                 await msg.edit(embed=embed)
             
