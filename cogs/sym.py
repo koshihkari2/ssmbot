@@ -17,10 +17,10 @@ def create_sym(image,center):
     l_for_paste.paste(l_croped,(0,0)) # 左側に元画像の左半分
     l_for_paste.paste(l_mirror,(l_croped.width,0)) # 右側には左半分の反転
 
-    with io.BytesIO() as left_output:
+    with io.BytesIO() as l_output:
         # BytesIOオブジェクトに変換する処理
-        l_for_paste.save(left_output,format="JPEG")
-        left_contents = left_output.getvalue()
+        l_for_paste.save(l_output,format="JPEG")
+        l_contents = l_output.getvalue()
 
     r_croped = img.crop((center,0,img.width,img.height)) # 顔の右半分
     r_mirror = ImageOps.mirror(r_croped) # 右半分を反転した
@@ -30,12 +30,12 @@ def create_sym(image,center):
     r_for_paste.paste(r_mirror,(0,0)) # 左側に右半分の反転
     r_for_paste.paste(r_croped,(r_croped.width,0)) # 右側に元画像の右半分 
 
-    with io.BytesIO() as right_output:
+    with io.BytesIO() as r_output:
         # BytesIOオブジェクトに変換する処理
-        r_for_paste.save(right_output,format="JPEG")
-        r_contents = right_output.getvalue()
+        r_for_paste.save(r_output,format="JPEG")
+        r_contents = r_output.getvalue()
 
-    return io.BytesIO(left_contents),io.BytesIO(right_contents)
+    return io.BytesIO(l_contents),io.BytesIO(r_contents)
 
 async def get_center(image_url):
     """各顔の中心を返す。"""
