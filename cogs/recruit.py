@@ -50,14 +50,15 @@ async def wait_react(ctx,msg,start_time):
         
     def check(reaction_,user_):
         
-        l = ["\N{HEAVY LARGE CIRCLE}","\N{CROSS MARK}","\N{UPWARDS BLACK ARROW}","\N{DOWNWARDS BLACK ARROW}","\N{WASTEBASKET}"]
-        print((reaction_.message.id == msg.id) and (not user_.bot) and (str(reaction_.emoji) in l))
+        l = ["\N{HEAVY LARGE CIRCLE}","\N{CROSS MARK}","\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}",
+             "\N{DOWNWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}","\N{WASTEBASKET}\N{VARIATION SELECTOR-16}"]
+        
         return (reaction_.message.id == msg.id) and (not user_.bot) and (str(reaction_.emoji) in l)
         
     while not ctx.bot.is_closed():
         reaction,user = await ctx.bot.wait_for("reaction_add",check=check)
             
-        if str(reaction.emoji) == "\N{HEAVY LARGE CIRCLE}":
+        if reaction.emoji.name == "\N{HEAVY LARGE CIRCLE}":
             # 参加
             if user in users:
                 await ctx.send(f"{user.name} は既に参加しています",delete_after=5.0)
@@ -73,7 +74,7 @@ async def wait_react(ctx,msg,start_time):
                 await ctx.send(f"{user.name} が参加を取り消しました",delete_after=5.0)
                 users.remove(user)
             
-        if (str(reaction.emoji) == "\N{UPWARDS BLACK ARROW}") and (user == ctx.author):
+        if (str(reaction.emoji) == "\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}") and (user == ctx.author):
             # 募集人数追加
             await ctx.send("募集人数を1人追加します。",delete_after=5.0)
                 
@@ -84,7 +85,7 @@ async def wait_react(ctx,msg,start_time):
                 
             await msg.edit(embed=embed)
             
-        if (str(reaction.emoji) == "\N{DOWNWARDS BLACK ARROW}") and (user == ctx.author):
+        if (str(reaction.emoji) == "\N{DOWNWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}") and (user == ctx.author):
             # 募集人数削減
             await ctx.send("募集人数を1人削減します。",delete_after=5.0)
             embed = msg.embeds[0]
@@ -94,7 +95,7 @@ async def wait_react(ctx,msg,start_time):
                 
             await msg.edit(embed=embed)
             
-        if (str(reaction.emoji) == "\N{WASTEBASKET}") and (user == ctx.author):
+        if (str(reaction.emoji) == "\N{WASTEBASKET}\N{VARIATION SELECTOR-16}") and (user == ctx.author):
             # 募集を削除
             await ctx.send("募集を終了します。",delete_after = 5.0)
             await msg.delete()
