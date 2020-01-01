@@ -52,7 +52,6 @@ async def wait_react(ctx,msg,start_time):
         
         l = ["\N{HEAVY LARGE CIRCLE}","\N{CROSS MARK}","\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}",
              "\N{DOWNWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}","\N{WASTEBASKET}\N{VARIATION SELECTOR-16}"]
-        
         return (reaction_.message.id == msg.id) and (not user_.bot) and (str(reaction_.emoji) in l)
         
     while not ctx.bot.is_closed():
@@ -71,10 +70,9 @@ async def wait_react(ctx,msg,start_time):
                 
                 content = ""
                 lines = embed.fields[2].value.split("\n")                
-                content += "\n".join(users)
+                content += "\n".join([str(user) for user in users])
                 
                 await msg.edit(embed=embed)
-                
                 
                 
         if str(reaction.emoji) == "\N{CROSS MARK}":
@@ -114,6 +112,8 @@ async def wait_react(ctx,msg,start_time):
             stop_flag = True
                 
             return
+        
+        await reaction.remove(user)
 
 class RecruitCog(commands.Cog):
     def __init__(self,bot):
