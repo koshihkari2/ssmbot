@@ -79,9 +79,19 @@ async def wait_react(ctx,msg,start_time):
             # 取り消し
             if user not in users:
                 await ctx.send(f"{user.name} はまだ参加していません",delete_after=5.0)
+            elif user == ctx.author:
+                await ctx.send(f"{user.name} はリーダーなので参加を取り消せません",delete_after=5.0)
             else:
                 await ctx.send(f"{user.name} が参加を取り消しました",delete_after=5.0)
                 users.remove(user)
+                
+                embed = msg.embeds[0]
+                
+                content = ""
+                lines = embed.fields[2].value.split("\n")                
+                content += "\n".join([str(user) for user in users])
+                
+                await msg.edit(embed=embed)
             
         if (str(reaction.emoji) == "\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}") and (user == ctx.author):
             # 募集人数追加
@@ -100,7 +110,12 @@ async def wait_react(ctx,msg,start_time):
             embed = msg.embeds[0]
                 
             tmp = embed.fields[0].value
-            embed.set_field_at(0,name="募集人数",value=f"{int(tmp) + 1}")
+            
+            if int(tmp) == 0:
+                await ctx.send("0人以下に減らすことはできません。",delete_after=5.0)
+                continue
+                
+            embed.set_field_at(0,name="募集人数",value=f"{int(tmp) - 1}")
                 
             await msg.edit(embed=embed)
             
@@ -143,12 +158,13 @@ class RecruitCog(commands.Cog):
     
         await ctx.send("募集を取り付けました。",delete_after=5.0)
         
-        description = f"・募集人数 : **{members_num}**人\n・開始時刻 : **{start_time}**"
-        
         embed = discord.Embed(title=f"{ctx.author} の募集",description=description)
-        embed.add_field(name="募集人数",value=members_num)
-        embed.add_field(name="開始時刻",value=start_time)
-        embed.add_field(name="参加者リスト",value=ctx.author)
+        
+        time_content = parsed.strftime("%Y年 %m月 %d 日 %H時%M分")
+        
+        embed.add_field(name="募集人数",value=members_num,inline=False)
+        embed.add_field(name="開始時刻",value=start_time,inline=False)
+        embed.add_field(name="参加者リスト",value=ctx.author,inline=False)
         
         message = await ctx.send(embed=embed)
         
