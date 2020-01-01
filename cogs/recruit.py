@@ -43,6 +43,7 @@ async def wait_react(ctx,msg,start_time):
             
         if not stop_flag:
             await ctx.send("指定時刻になりました。")
+            await msg.unpin()
         
     loop = asyncio.get_event_loop()
     tmp = (start_time - datetime.datetime.now()).total_seconds()
@@ -175,6 +176,8 @@ class RecruitCog(commands.Cog):
         
         l = ["\N{HEAVY LARGE CIRCLE}","\N{CROSS MARK}","\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}",
              "\N{DOWNWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}","\N{WASTEBASKET}\N{VARIATION SELECTOR-16}"]
+        
+        await message.pin()
         
         for emoji in l:
             await message.add_reaction(emoji)
