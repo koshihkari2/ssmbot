@@ -56,6 +56,9 @@ async def wait_react(ctx,msg,start_time):
         
     while not ctx.bot.is_closed():
         reaction,user = await ctx.bot.wait_for("reaction_add",check=check)
+        
+        if start_time < datetime.datetime.now():
+            return
             
         if str(reaction.emoji) == "\N{HEAVY LARGE CIRCLE}":
             # 参加
