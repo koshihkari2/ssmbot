@@ -75,9 +75,9 @@ class Sym(commands.Cog,name="シンメトリー"):
         
     @commands.command()
     async def symmetry(self,ctx):
-        if not message.attachments:
+        if not ctx.message.attachments:
             return
-        image = message.attachments[0]
+        image = ctx.message.attachments[0]
         
         centers = await get_center(image.url) # 顔の中心のリスト
         true_image = io.BytesIO(await image.read()) # 画像データ
@@ -85,8 +85,8 @@ class Sym(commands.Cog,name="シンメトリー"):
         for center in centers:
             left,right = create_sym(true_image,center) #シンメトリー画像データ
 
-            await message.channel.send(files=[discord.File(left,"left.jpg"),
-                                              discord.File(right,"right.jpg")])
+            await ctx.send(files=[discord.File(left,"left.jpg"),
+                                  discord.File(right,"right.jpg")])
 
 def setup(bot):
     bot.add_cog(Sym(bot))
