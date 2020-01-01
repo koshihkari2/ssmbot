@@ -9,7 +9,7 @@ class Spla(commands.Cog,name="Splatoon"):
         self.bot = bot
         
     @commands.command()
-    async def stage(self,ctx,hour=None:int):
+    async def stage(self,ctx,hour=None):
     
         target = datetime.datetime.now().replace(minute=0,second=0,microsecond=0)
         
