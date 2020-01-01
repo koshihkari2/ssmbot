@@ -19,7 +19,7 @@ class DiscordBot(commands.Bot):
                 traceback.print_exc()
 
     async def on_message(self,message):
-        self.process_commands(message)
+        await self.process_commands(message)
         
     async def on_ready(self):
         print("ready")
