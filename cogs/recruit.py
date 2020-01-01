@@ -35,7 +35,7 @@ async def wait_react(ctx,msg,start_time):
     リアクションを待機する。
     """
         
-    users = []
+    users = [ctx.author]
     stop_flag = False
         
     async def wait_time(seconds):
@@ -70,9 +70,7 @@ async def wait_react(ctx,msg,start_time):
                 embed = msg.embeds[0]
                 
                 content = ""
-                lines = embed.fields[2].value.split("\n")
-                content += str(int(lines[0]) + 1)
-                
+                lines = embed.fields[2].value.split("\n")                
                 content += "\n".join(users)
                 
                 await msg.edit(embed=embed)
@@ -150,7 +148,7 @@ class RecruitCog(commands.Cog):
         embed = discord.Embed(title=f"{ctx.author} の募集",description=description)
         embed.add_field(name="募集人数",value=members_num)
         embed.add_field(name="開始時刻",value=start_time)
-        embed.add_field(name="参加者リスト",value="0人")
+        embed.add_field(name="参加者リスト",value=ctx.author)
         
         message = await ctx.send(embed=embed)
         
