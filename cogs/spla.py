@@ -15,12 +15,13 @@ class Spla(commands.Cog,name="Splatoon"):
         
         if hour is not None:
             hour = int(hour)
+            print(hour)
             if hour < target.hour:
                 # もし、指定したい時刻が現在時刻より前だったら、一日足す
-                target.replace(day=target.day+1)
-            target.replace(hour=hour - hour%2)
+                target = target.replace(day=target.day+1)
+            target = target.replace(hour=hour - hour%2)
         else:
-            target.replace(hour=target.hour - target.hour%2)
+            target = target.replace(hour=target.hour - target.hour%2)
             
         target_str = target.strftime("%Y-%m-%dT%H:%M:%S")
         url = "https://spla2.yuu26.com/schedule"
