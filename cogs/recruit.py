@@ -49,7 +49,8 @@ async def wait_react(ctx,msg,start_time):
     loop.create_task(wait_time(tmp))
         
     def check(reation_,user_):
-        return (reaction.message.id == msg.id) and (not user_.bot) and (str(reaction_.emoji) in [""])
+        l = ["\N{HEAVY LARGE CIRCLE}","\N{CROSS MARK}","\N{UPWARDS BLACK ARROW}","\N{DOWNWARDS BLACK ARROW}","\N{WASTEBASKET}"]
+        return (reaction_.message.id == msg.id) and (not user_.bot) and (str(reaction_.emoji) in [""])
         
     while not ctx.bot.is_closed():
         rection,user = await ctx.bot.wait_for("reaction_add",check=check)
