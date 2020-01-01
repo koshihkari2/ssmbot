@@ -142,7 +142,7 @@ class RecruitCog(commands.Cog):
                 
 
     @commands.command(aliases=["bosyu"])
-    async def recruit(self,ctx,members_num:int,*,start_time):
+    async def recruit(self,ctx,members_num:int,start_time_and_comment,*):
         """
         募集を行います。
         受け取る引数はメンバー数、開始時刻です。
@@ -154,9 +154,13 @@ class RecruitCog(commands.Cog):
         
         3人をその月の9日の8時00分に募集する場合。
         `_recruit 3 9日8時0分`
+        
+        5人をその日の17時00分に募集し、`対戦相手募集`とコメントをつける場合。
+        `_recruit 5 17時0分 対戦相手募集`
         """
         
-        parsed = parser(start_time)
+        parsed = parser(start_time_and_comment)
+        comment = " ".join(start_time_and_comment.split(" ")[1:])
         
         if not parsed:
             await ctx.send("指定された時刻情報が不正です。")
@@ -168,6 +172,7 @@ class RecruitCog(commands.Cog):
         
         time_content = parsed.strftime("%Y年 %m月 %d 日 %H時%M分")
         
+        embed.add_field(name="コメント",value=comment,inline=False)
         embed.add_field(name="募集人数",value=members_num,inline=False)
         embed.add_field(name="開始時刻",value=time_content,inline=False)
         embed.add_field(name="参加者リスト",value=ctx.author,inline=False)
