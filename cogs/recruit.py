@@ -72,7 +72,7 @@ async def wait_react(ctx,msg,start_time):
                 embed = msg.embeds[0]
                 
                 content = "\n".join([str(user) for user in users])
-                embed.set_filed_at(2,name="参加者リスト",value=content,inline=False)
+                embed.set_field_at(2,name="参加者リスト",value=content,inline=False)
                 
                 await msg.edit(embed=embed)
                 
@@ -90,7 +90,7 @@ async def wait_react(ctx,msg,start_time):
                 embed = msg.embeds[0]
                 
                 content += "\n".join([str(user) for user in users])
-                embed.set_filed_at(2,name="参加者リスト",value=content,inline=False)
+                embed.set_field_at(2,name="参加者リスト",value=content,inline=False)
                 
                 await msg.edit(embed=embed)
             
@@ -172,6 +172,13 @@ class RecruitCog(commands.Cog):
         embed.add_field(name="参加者リスト",value=ctx.author,inline=False)
         
         message = await ctx.send(embed=embed)
+        
+        
+        l = ["\N{HEAVY LARGE CIRCLE}","\N{CROSS MARK}","\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}",
+             "\N{DOWNWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}","\N{WASTEBASKET}\N{VARIATION SELECTOR-16}"]
+        
+        for emoji in l:
+            await message.add_reaction(emoji)
         
         await wait_react(ctx,message,parsed)
 
