@@ -172,7 +172,7 @@ class RecruitCog(commands.Cog):
         embed.add_field(name="開始時刻",value=time_content,inline=False)
         embed.add_field(name="参加者リスト",value=ctx.author,inline=False)
         
-        message = await ctx.send(ctx.guild.roles[0].mention,embed=embed)
+        message = await ctx.send("@everyone",embed=embed)
         
         l = ["\N{HEAVY LARGE CIRCLE}","\N{CROSS MARK}","\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}",
              "\N{DOWNWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}","\N{WASTEBASKET}\N{VARIATION SELECTOR-16}"]
