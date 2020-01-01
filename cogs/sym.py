@@ -19,7 +19,7 @@ def create_sym(image,center):
 
     with io.BytesIO() as left_output:
         # BytesIOオブジェクトに変換する処理
-        left_for_paste.save(left_output,format="JPEG")
+        l_for_paste.save(left_output,format="JPEG")
         left_contents = left_output.getvalue()
 
     r_croped = img.crop((center,0,img.width,img.height)) # 顔の右半分
@@ -27,13 +27,13 @@ def create_sym(image,center):
 
     r_for_paste = Image.new("RGB",
                             (r_croped.width*2,r_croped.height)) # 合成用画像
-    right_for_paste.paste(r_mirror,(0,0)) # 左側に右半分の反転
-    right_for_paste.paste(r_croped,(r_croped.width,0)) # 右側に元画像の右半分 
+    r_for_paste.paste(r_mirror,(0,0)) # 左側に右半分の反転
+    r_for_paste.paste(r_croped,(r_croped.width,0)) # 右側に元画像の右半分 
 
     with io.BytesIO() as right_output:
         # BytesIOオブジェクトに変換する処理
-        right_for_paste.save(right_output,format="JPEG")
-        right_contents = right_output.getvalue()
+        r_for_paste.save(right_output,format="JPEG")
+        r_contents = right_output.getvalue()
 
     return io.BytesIO(left_contents),io.BytesIO(right_contents)
 
@@ -75,6 +75,9 @@ class Sym(commands.Cog,name="シンメトリー"):
         
     @commands.command()
     async def symmetry(self,ctx):
+        """
+        添付された人物の画像からシンメトリー画像を生成します。
+        """
         if not ctx.message.attachments:
             return
         image = ctx.message.attachments[0]
