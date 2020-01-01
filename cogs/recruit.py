@@ -137,3 +137,7 @@ class RecruitCog(commands.Cog):
         message = await ctx.send(embed=embed)
         
         await wait_react(ctx,message,parsed)
+
+        
+def setup(bot):
+    bot.add_cog(RecruitCog(bot))
