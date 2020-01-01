@@ -15,7 +15,7 @@ class Spla(commands.Cog,name="スプラトゥーン"):
         hour引数には取得したい時刻を入れます（省略可能）
         
         現在のステージ情報を取得
-        `_stage 8`
+        `_stage`
         
         8時のステージ情報を取得
         `_stage 8`
