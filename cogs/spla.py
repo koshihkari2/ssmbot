@@ -30,6 +30,8 @@ class Spla(commands.Cog,name="Splatoon"):
                     return
                 data = await r.json()
                 
+        print(target_str)
+                
         regular_data = data["result"]["regular"]
         regular_stages = [datum["maps"] for datum in regular_data if datum["start"] == target_str][0]
         
