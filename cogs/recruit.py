@@ -42,7 +42,7 @@ async def wait_react(ctx,msg,start_time):
         await asyncio.sleep(seconds)
             
         if not stop_flag:
-                await ctx.send("指定時刻になりました。")
+            await ctx.send("指定時刻になりました。")
         
     loop = asyncio.get_event_loop()
     tmp = (start_time - datetime.datetime.now()).total_seconds()
@@ -51,8 +51,8 @@ async def wait_react(ctx,msg,start_time):
     def check(reation_,user_):
         return (reaction.message.id == msg.id) and (not user_.bot) and (str(reaction_.emoji) in [""])
         
-    while not self.bot.is_closed():
-        rection,user = await self.bot.wait_for("reaction_add",check=check)
+    while not ctx.bot.is_closed():
+        rection,user = await ctx.bot.wait_for("reaction_add",check=check)
             
         if str(reaction.emoji) == "\N{HEAVY LARGE CIRCLE}":
             # 参加
