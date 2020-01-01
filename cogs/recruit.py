@@ -47,11 +47,11 @@ async def wait_react(ctx,msg,start_time):
     loop = asyncio.get_event_loop()
     tmp = (start_time - datetime.datetime.now()).total_seconds()
     loop.create_task(wait_time(tmp))
+    
+    l = ["\N{HEAVY LARGE CIRCLE}","\N{CROSS MARK}","\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}",
+             "\N{DOWNWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}","\N{WASTEBASKET}\N{VARIATION SELECTOR-16}"]
         
     def check(reaction_,user_):
-        
-        l = ["\N{HEAVY LARGE CIRCLE}","\N{CROSS MARK}","\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}",
-             "\N{DOWNWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}","\N{WASTEBASKET}\N{VARIATION SELECTOR-16}"]
         return (reaction_.message.id == msg.id) and (not user_.bot) and (str(reaction_.emoji) in l)
         
     while not ctx.bot.is_closed():
@@ -71,9 +71,8 @@ async def wait_react(ctx,msg,start_time):
                 
                 embed = msg.embeds[0]
                 
-                content = ""
-                lines = embed.fields[2].value.split("\n")                
-                content += "\n".join([str(user) for user in users])
+                content = "\n".join([str(user) for user in users])
+                embed.fields[2] = content
                 
                 await msg.edit(embed=embed)
                 
@@ -90,9 +89,8 @@ async def wait_react(ctx,msg,start_time):
                 
                 embed = msg.embeds[0]
                 
-                content = ""
-                lines = embed.fields[2].value.split("\n")                
                 content += "\n".join([str(user) for user in users])
+                embed.fields[2] = content
                 
                 await msg.edit(embed=embed)
             
@@ -132,6 +130,10 @@ async def wait_react(ctx,msg,start_time):
             return
         
         await reaction.remove(user)
+        
+        for emoji in l:
+            await msg.add_reaction(emoji)
+        
 
 class RecruitCog(commands.Cog):
     def __init__(self,bot):
@@ -166,7 +168,7 @@ class RecruitCog(commands.Cog):
         time_content = parsed.strftime("%Y年 %m月 %d 日 %H時%M分")
         
         embed.add_field(name="募集人数",value=members_num,inline=False)
-        embed.add_field(name="開始時刻",value=start_time,inline=False)
+        embed.add_field(name="開始時刻",value=time_content,inline=False)
         embed.add_field(name="参加者リスト",value=ctx.author,inline=False)
         
         message = await ctx.send(embed=embed)
