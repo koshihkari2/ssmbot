@@ -18,7 +18,7 @@ class Spla(commands.Cog,name="Splatoon"):
         else:
             target.replace(hour=target.hour - target.hour%2)
             
-        target_str = target.strftime("%Y-%m-%dT%H:%M%S")
+        target_str = target.strftime("%Y-%m-%dT%H:%M:%S")
         url = "https://spla2.yuu26.com/schedule"
         
         headers = {"User-Agent":"個人用bot [tw:@shidoro_onn]"}
