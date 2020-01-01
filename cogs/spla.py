@@ -4,12 +4,22 @@ import aiohttp
 
 import datetime
 
-class Spla(commands.Cog,name="Splatoon"):
+class Spla(commands.Cog,name="スプラトゥーン"):
     def __init__(self,bot):
         self.bot = bot
         
     @commands.command()
     async def stage(self,ctx,hour=None):
+        """
+        スプラトゥーン2の現在のステージ情報を取得します。
+        hour引数には取得したい時刻を入れます（省略可能）
+        
+        現在のステージ情報を取得
+        `_stage 8`
+        
+        8時のステージ情報を取得
+        `_stage 8`
+        """
     
         target = datetime.datetime.now().replace(minute=0,second=0,microsecond=0)
         
