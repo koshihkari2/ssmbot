@@ -14,6 +14,7 @@ class Spla(commands.Cog,name="Splatoon"):
         target = datetime.datetime.now().replace(minute=0,second=0,microsecond=0)
         
         if hour is not None:
+            hour = int(hour)
             if hour < target.hour:
                 # もし、指定したい時刻が現在時刻より前だったら、一日足す
                 target.replace(day=day+1)
