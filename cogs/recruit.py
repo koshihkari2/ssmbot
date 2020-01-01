@@ -158,7 +158,7 @@ class RecruitCog(commands.Cog):
     
         await ctx.send("募集を取り付けました。",delete_after=5.0)
         
-        embed = discord.Embed(title=f"{ctx.author} の募集",description=description)
+        embed = discord.Embed(title=f"{ctx.author} の募集")
         
         time_content = parsed.strftime("%Y年 %m月 %d 日 %H時%M分")
         
