@@ -34,12 +34,23 @@ class RecruitCog(commands.Cog):
             
         return result
         
-    async def wait_react(ctx,msg):
+    async def wait_react(ctx,msg,start_time):
         """
         リアクションを待機する。
         """
         
         users = []
+        stop_flag = False
+        
+        async def wait_time(seconds):
+            await asyncio.sleep(seconds)
+            
+            if not stop_flag:
+                await ctx.send("指定時刻になりました。")
+        
+        loop = asyncio.get_event_loop()
+        tmp = (start_time - datetime.datetime.now()).total_seconds()
+        loop.create_task(wait_time(tmp))
         
         def check(reation_,user_):
             return (reaction.message.id == msg.id) and (not user_.bot) and (str(reaction_.emoji) in [""])
@@ -60,7 +71,7 @@ class RecruitCog(commands.Cog):
                 if user not in users:
                     await ctx.send(f"{user.name} はまだ参加していません",delete_after=5.0)
                 else:
-                    await ctx.send(f"{user.name}" が参加を取り消しました",delete_after=5.0)
+                    await ctx.send(f"{user.name} が参加を取り消しました",delete_after=5.0)
                     users.remove(user)
             
             if str(reaction.emoji) == "" and user == ctx.author:
@@ -88,6 +99,8 @@ class RecruitCog(commands.Cog):
                 # 募集を削除
                 await ctx.send("募集を終了します。",delete_after = 5.0)
                 await msg.delete()
+                
+                stop_flag = True
                 
                 return
                 
@@ -123,7 +136,4 @@ class RecruitCog(commands.Cog):
         
         message = await ctx.send(embed=embed)
         
-        loop = asyncio.get_event_loop()
-        task = loop.create_task(wait_react(ctx,message))
-        
-        
+        await wait_react(ctx,message,parsed)
