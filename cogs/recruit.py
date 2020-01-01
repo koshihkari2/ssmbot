@@ -58,7 +58,7 @@ async def wait_react(ctx,msg,start_time):
     while not ctx.bot.is_closed():
         reaction,user = await ctx.bot.wait_for("reaction_add",check=check)
             
-        if reaction.emoji.name == "\N{HEAVY LARGE CIRCLE}":
+        if str(reaction.emoji) == "\N{HEAVY LARGE CIRCLE}":
             # 参加
             if user in users:
                 await ctx.send(f"{user.name} は既に参加しています",delete_after=5.0)
