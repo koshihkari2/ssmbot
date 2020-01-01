@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 import aiohttp
 
+import datetime
+
 class Spla(commands.Cog,name="Splatoon"):
     def __init__(self,bot):
         self.bot = bot
