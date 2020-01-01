@@ -64,7 +64,20 @@ async def wait_react(ctx,msg,start_time):
                 await ctx.send(f"{user.name} は既に参加しています",delete_after=5.0)
             else:
                 await ctx.send(f"{user.name} が参加を表明しました（「×リアクションで取り消せます」）",delete_after=5.0)
+                
                 users.append(user)
+                
+                embed = msg.embeds[0]
+                
+                content = ""
+                lines = embed.fields[2].value.split("\n")
+                content += str(int(lines[0]) + 1)
+                
+                content += "\n".join(users)
+                
+                await msg.edit(embed=embed)
+                
+                
                 
         if str(reaction.emoji) == "\N{CROSS MARK}":
             # 取り消し
@@ -81,7 +94,7 @@ async def wait_react(ctx,msg,start_time):
             embed = msg.embeds[0]
                 
             tmp = embed.fields[0].value
-            embed.set_field_at(0,name="募集人数",value=tmp + 1)
+            embed.set_field_at(0,name="募集人数",value=f"{int(tmp) + 1}")
                 
             await msg.edit(embed=embed)
             
@@ -91,7 +104,7 @@ async def wait_react(ctx,msg,start_time):
             embed = msg.embeds[0]
                 
             tmp = embed.fields[0].value
-            embed.set_field_at(0,name="募集人数",value=tmp + 1)
+            embed.set_field_at(0,name="募集人数",value=f"{int(tmp) + 1}")
                 
             await msg.edit(embed=embed)
             
@@ -137,6 +150,7 @@ class RecruitCog(commands.Cog):
         embed = discord.Embed(title=f"{ctx.author} の募集",description=description)
         embed.add_field(name="募集人数",value=members_num)
         embed.add_field(name="開始時刻",value=start_time)
+        embed.add_field(name="参加者リスト",value="0人")
         
         message = await ctx.send(embed=embed)
         
