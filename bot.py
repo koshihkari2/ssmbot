@@ -19,8 +19,8 @@ class JapaneseHelpCommand(commands.DefaultHelpCommand):
         return ("各コマンドの説明: _help コマンド名\n各カテゴリの説明: _help カテゴリ名\n")
 
 class DiscordBot(commands.Bot):
-    def __init__(self,command_prefix):
-        super().__init__(command_prefix)
+    def __init__(self,command_prefix,help_command):
+        super().__init__(command_prefix,help_command)
 
         for cog in EXT:
             try:
