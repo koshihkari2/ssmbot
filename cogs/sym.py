@@ -23,7 +23,7 @@ def create_sym(image,center):
         left_contents = left_output.getvalue()
 
     r_croped = img.crop((center,0,img.width,img.height)) # 顔の右半分
-    r_mirror = ImageOps.mirror(right_croped) # 右半分を反転した
+    r_mirror = ImageOps.mirror(r_croped) # 右半分を反転した
 
     r_for_paste = Image.new("RGB",
                             (r_croped.width*2,r_croped.height)) # 合成用画像
