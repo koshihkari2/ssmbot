@@ -58,7 +58,7 @@ class RecruitCog(commands.Cog):
         while not self.bot.is_closed():
             rection,user = await self.bot.wait_for("reaction_add",check=check)
             
-            if str(reaction.emoji) == "":
+            if str(reaction.emoji) == "\N{HEAVY LARGE CIRCLE}":
                 # 参加
                 if user in users:
                     await ctx.send(f"{user.name} は既に参加しています",delete_after=5.0)
@@ -66,7 +66,7 @@ class RecruitCog(commands.Cog):
                     await ctx.send(f"{user.name} が参加を表明しました（「×リアクションで取り消せます」）",delete_after=5.0)
                     users.append(user)
                 
-            if str(reaction.emoji) == "":
+            if str(reaction.emoji) == "\N{CROSS MARK}":
                 # 取り消し
                 if user not in users:
                     await ctx.send(f"{user.name} はまだ参加していません",delete_after=5.0)
@@ -74,7 +74,7 @@ class RecruitCog(commands.Cog):
                     await ctx.send(f"{user.name} が参加を取り消しました",delete_after=5.0)
                     users.remove(user)
             
-            if str(reaction.emoji) == "" and user == ctx.author:
+            if (str(reaction.emoji) == "\N{UPWARDS BLACK ARROW}") and (user == ctx.author):
                 # 募集人数追加
                 await ctx.send("募集人数を1人追加します。",delete_after=5.0)
                 
@@ -85,7 +85,7 @@ class RecruitCog(commands.Cog):
                 
                 await msg.edit(embed=embed)
             
-            if str(reaction.emoji) == "" and user == ctx.author:
+            if (str(reaction.emoji) == "\N{DOWNWARDS BLACK ARROW}") and (user == ctx.author):
                 # 募集人数削減
                 await ctx.send("募集人数を1人削減します。",delete_after=5.0)
                 embed = msg.embeds[0]
@@ -95,7 +95,7 @@ class RecruitCog(commands.Cog):
                 
                 await msg.edit(embed=embed)
             
-            if str(reaction.emoji) == "" and user == ctx.author:
+            if (str(reaction.emoji) == "\N{WASTEBASKET}") and (user == ctx.author):
                 # 募集を削除
                 await ctx.send("募集を終了します。",delete_after = 5.0)
                 await msg.delete()
