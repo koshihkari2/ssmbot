@@ -9,11 +9,14 @@ class Spla(commands.Cog,name="Splatoon"):
         self.bot = bot
         
     @commands.command()
-    async def stage(self,ctx,hour=None):
+    async def stage(self,ctx,hour=None:int):
     
         target = datetime.datetime.now().replace(minute=0,second=0,microsecond=0)
         
         if hour is not None:
+            if hour < target.hour:
+                # もし、指定したい時刻が現在時刻より前だったら、一日足す
+                target.replace(day=day+1)
             target.replace(hour=hour - hour%2)
         else:
             target.replace(hour=target.hour - target.hour%2)
@@ -47,11 +50,11 @@ class Spla(commands.Cog,name="Splatoon"):
         content += f"・**{regular_stages[0]}**\n"
         content += f"・**{regular_stages[1]}**\n\n"
         
-        content = f"__★ガチマッチのステージ情報（{gachi_rule}）★__\n"
+        content += f"__★ガチマッチのステージ情報（{gachi_rule}）★__\n"
         content += f"・**{gachi_stages[0]}**\n"
         content += f"・**{gachi_stages[1]}**\n\n"
         
-        content = f"__★リーグマッチのステージ情報（{league_rule}）★__\n"
+        content += f"__★リーグマッチのステージ情報（{league_rule}）★__\n"
         content += f"・**{league_stages[0]}**\n"
         content += f"・**{league_stages[1]}**\n\n"
         
