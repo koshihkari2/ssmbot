@@ -39,7 +39,7 @@ class OpenLink(commands.Cog,name="リンク展開"):
                 got_message = await channel.fetch_message(message_id)
 
                 if got_message is not None:
-                    await ctx.message.channel.send(embed=open_message(got_message))
+                    await ctx.send(embed=open_message(got_message))
         
 
     
