@@ -20,8 +20,9 @@ class OpenLink(commands.Cog,name="リンク展開"):
     def __init__(self,bot):
         self.bot = bot
         
-    @commands.Cog.listener()
-    async def on_message(message):
+    @commands.command(name="open")
+    async def open_(self,ctx,*,message):
+        
         url_re = r"https://discordapp.com/channels/(\d{18})/(\d{18})/(\d{18})"
         url_list  = re.findall(url_re,message.content)
     
