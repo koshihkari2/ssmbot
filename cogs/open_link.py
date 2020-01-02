@@ -29,7 +29,7 @@ class OpenLink(commands.Cog,name="リンク展開"):
         """
         
         url_re = r"https://discordapp.com/channels/(\d{18})/(\d{18})/(\d{18})"
-        url_list  = re.findall(url_re,message.content)
+        url_list  = re.findall(url_re,message)
     
         for url in url_list:
             guild_id,channel_id,message_id = url
