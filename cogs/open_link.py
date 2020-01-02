@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 
+import re
+
 def open_message(message):
     """
     メッセージを展開し、作成した埋め込みに各情報を添付し返す関数
@@ -22,6 +24,9 @@ class OpenLink(commands.Cog,name="リンク展開"):
         
     @commands.command(name="open")
     async def open_(self,ctx,*,message):
+        """
+        メッセージのURLを渡すと、その内容を表示します。
+        """
         
         url_re = r"https://discordapp.com/channels/(\d{18})/(\d{18})/(\d{18})"
         url_list  = re.findall(url_re,message.content)
@@ -34,7 +39,7 @@ class OpenLink(commands.Cog,name="リンク展開"):
                 got_message = await channel.fetch_message(message_id)
 
                 if got_message is not None:
-                    await message.channel.send(embed=open_message(got_message))
+                    await ctx.message.channel.send(embed=open_message(got_message))
         
 
     
