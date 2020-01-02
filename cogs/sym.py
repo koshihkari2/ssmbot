@@ -65,7 +65,7 @@ async def get_center(image_url):
 
             centers.append(left+(width//2))
     else:
-        centers = []
+        centers = [width//2]
 
     return centers
     
@@ -73,13 +73,15 @@ class Sym(commands.Cog,name="シンメトリー"):
     def __init__(self,bot):
         self.bot = bot
         
-    @commands.command()
+    @commands.command(aliases=["sym"])
     async def symmetry(self,ctx):
         """
         添付された人物の画像からシンメトリー画像を生成します。
         """
         if not ctx.message.attachments:
+            await ctx.send("画像ファイルが必要です。")
             return
+        
         image = ctx.message.attachments[0]
         
         centers = await get_center(image.url) # 顔の中心のリスト
