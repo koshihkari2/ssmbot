@@ -37,7 +37,7 @@ def create_sym(image,center):
 
     return io.BytesIO(l_contents),io.BytesIO(r_contents)
 
-async def get_center(image_url):
+async def get_center(image):
     """各顔の中心を返す。"""
     
     image_url = image.url
