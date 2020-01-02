@@ -39,6 +39,9 @@ def create_sym(image,center):
 
 async def get_center(image_url):
     """各顔の中心を返す。"""
+    
+    image_url = image.url
+    
     url = "https://faceplusplus-faceplusplus.p.rapidapi.com/facepp/v3/detect"
     query = {"image_url": image_url}
 
@@ -65,7 +68,7 @@ async def get_center(image_url):
 
             centers.append(left+(width//2))
     else:
-        centers = [width//2]
+        centers = [image.width//2]
 
     return centers
     
@@ -84,7 +87,7 @@ class Sym(commands.Cog,name="シンメトリー"):
         
         image = ctx.message.attachments[0]
         
-        centers = await get_center(image.url) # 顔の中心のリスト
+        centers = await get_center(image) # 顔の中心のリスト
         true_image = io.BytesIO(await image.read()) # 画像データ
 
         for center in centers:
