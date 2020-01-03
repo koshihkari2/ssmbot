@@ -63,24 +63,18 @@ async def wait_react(ctx,msg,start_time):
         if start_time < datetime.datetime.now():
             return
         
-        def summon_embed():
+        def create_embed():
             embed = msg.embeds[0]
             
-            content = "\n".join([str(user) for user in summon_users])
-            content = content if content else "なし"
-            embed.set_field_at(3,name="参加者リスト",value=content,inline=False)
+            tmp = "\n".join([str(user) for user in summon_users])
+            summon = tmp if tmp else "なし"
             
-            return embed
+            tmp = "\n".join([str(user) for user in bye_users])
+            bye = tmp if tmp else "なし"
             
-        def bye_embed():
-            embed = msg.embeds[0]
-            
-            content = "\n".join([str(user) for user in bye_users])
-            content = content if content else "なし"
-            embed.set_field_at(4,name="不参加者リスト",value=content,inline=False)
-            
-            return embed
-            
+            embed.set_field_at(3,name="参加者リスト",value=summon,inline=False)
+            embed.set_field_at(4,name="不参加者リスト",value=bye,inline=False)
+                    
         if str(reaction.emoji) == "\N{HEAVY LARGE CIRCLE}":
             # 参加
             if user == ctx.author:
@@ -89,20 +83,20 @@ async def wait_react(ctx,msg,start_time):
             elif user in summon_users:
                 summon_users.remove(user)
                 
-                await msg.edit(embed=summon_embed())
+                await msg.edit(embed=create_embed())
                 await ctx.send(f"{user.name} が参加を取り消しました",delete_after=5.0)
                 
             elif user in bye_users:
                 bye_users.remove(user)
                 summon_users.append(user)
                 
-                await msg.edit(embed=summon_embed())
+                await msg.edit(embed=create_embed())
                 await ctx.send(f"{user.name} が不参加から参加に変更しました",delete_after=5.0)
                 
             else:
                 summon_users.append(user)
                 
-                await msg.edit(embed=summon_embed())
+                await msg.edit(embed=create_embed())
                 await ctx.send(f"{user.name} が参加を表明しました（再度「〇」リアクションで取り消せます）",delete_after=5.0)
                 
         if str(reaction.emoji) == "\N{CROSS MARK}":
@@ -113,20 +107,20 @@ async def wait_react(ctx,msg,start_time):
             elif user in bye_users:
                 bye_users.remove(user)
                 
-                await msg.edit(embed=bye_embed())
+                await msg.edit(embed=create_embed())
                 await ctx.send(f"{user.name} が不参加を取り消しました",delete_after=5.0)
                 
             elif user in summon_users:
                 summon_users.remove(user)
                 bye_users.append(user)
                 
-                await msg.edit(embed=bye_embed())
+                await msg.edit(embed=create_embed())
                 await ctx.send(f"{user.name} が参加から不参加に変更しました",delete_after=5.0)
                 
             else:
                 bye_users.append(user)
                 
-                await msg.edit(embed=bye_embed())
+                await msg.edit(embed=create_embed())
                 await ctx.send(f"{user.name} が不参加を表明しました（再度「×」リアクションで取り消せます）",delete_after=5.0)
             
         if (str(reaction.emoji) == "\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}") and (user == ctx.author):
