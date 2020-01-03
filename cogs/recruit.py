@@ -74,6 +74,8 @@ async def wait_react(ctx,msg,start_time):
             
             embed.set_field_at(3,name="参加者リスト",value=summon,inline=False)
             embed.set_field_at(4,name="不参加者リスト",value=bye,inline=False)
+            
+            return embed
                     
         if str(reaction.emoji) == "\N{HEAVY LARGE CIRCLE}":
             # 参加
