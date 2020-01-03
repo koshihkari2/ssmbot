@@ -35,7 +35,9 @@ async def wait_react(ctx,msg,start_time):
     リアクションを待機する。
     """
         
-    users = [ctx.author]
+    summon_users = [ctx.author]
+    bye_users = []
+    
     stop_flag = False
         
     async def wait_time(seconds):
@@ -60,40 +62,72 @@ async def wait_react(ctx,msg,start_time):
         
         if start_time < datetime.datetime.now():
             return
+        
+        def summon_embed():
+            embed = msg.embeds[0]
+            
+            content = "\n".join([str(user) for user in summon_users])
+            content = content if content else "なし"
+            embed.set_field_at(2,name="参加者リスト",value=content,inline=False)
+            
+            return embed
+            
+        def bye_embed():
+            embed = msg.embeds[0]
+            
+            content = "\n".join([str(user) for user in bye_users])
+            content = content if content else "なし"
+            embed.set_field_at(3,name="不参加者リスト",value=content,inline=False)
+            
+            return embed
             
         if str(reaction.emoji) == "\N{HEAVY LARGE CIRCLE}":
             # 参加
-            if user in users:
-                await ctx.send(f"{user.name} は既に参加しています",delete_after=5.0)
+            if user == ctx.author:
+                await ctx.send(f"{user.name} はリーダーなので参加を取り消せません")
+                
+            elif user in summon_users:
+                summon_users.remove(user)
+                
+                await msg.edit(embed=summon_embed())
+                await ctx.send(f"{user.name} が参加を取り消しました",delete_after=5.0)
+                
+            elif user in bye_users:
+                bye_users.remove(user)
+                summon_users.append(user)
+                
+                await msg.edit(embed=summon_embed())
+                await ctx.send(f"{user.name} が不参加から参加に変更しました",delete_after=5.0)
+                
             else:
-                await ctx.send(f"{user.name} が参加を表明しました（「×リアクションで取り消せます」）",delete_after=5.0)
+                summon_users.append(user)
                 
-                users.append(user)
-                
-                embed = msg.embeds[0]
-                
-                content = "\n".join([str(user) for user in users])
-                embed.set_field_at(2,name="参加者リスト",value=content,inline=False)
-                
-                await msg.edit(embed=embed)
-                
+                await msg.edit(embed=summon_embed())
+                await ctx.send(f"{user.name} が参加を表明しました（再度「〇」リアクションで取り消せます）",delete_after=5.0)
                 
         if str(reaction.emoji) == "\N{CROSS MARK}":
-            # 取り消し
-            if user not in users:
-                await ctx.send(f"{user.name} はまだ参加していません",delete_after=5.0)
-            elif user == ctx.author:
-                await ctx.send(f"{user.name} はリーダーなので参加を取り消せません",delete_after=5.0)
+            # 不参加
+            if user == ctx.author:
+                await ctx.send(f"{user.name} はリーダーなので不参加に変更できません",delete_after=5.0)
+                
+            elif user in bye_users:                
+                bye_users.remove(user)
+                
+                await msg.edit(embed=bye_embed())
+                await ctx.send(f"{user.name} が不参加を取り消しました",delete_afer=5.0)
+                
+            elif user in summon_users:
+                summon_users.remove(user)
+                bye_users.append(user)
+                
+                await msg.edit(embed=summon_embed())
+                await ctx.send(f"{user.name} が参加から不参加に変更しました",delete_after=5.0)
+                
             else:
-                await ctx.send(f"{user.name} が参加を取り消しました",delete_after=5.0)
-                users.remove(user)
+                bye_users.append(user)
                 
-                embed = msg.embeds[0]
-                
-                content = "\n".join([str(user) for user in users])
-                embed.set_field_at(2,name="参加者リスト",value=content,inline=False)
-                
-                await msg.edit(embed=embed)
+                await msg.edit(embed=summon_embed())
+                await ctx.send(f"{user.name} が不参加を表明しました（再度「×」リアクションで取り消せます）",delete_after=5.0)
             
         if (str(reaction.emoji) == "\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}") and (user == ctx.author):
             # 募集人数追加
@@ -177,6 +211,7 @@ class RecruitCog(commands.Cog,name="募集"):
         embed.add_field(name="募集人数",value=members_num,inline=False)
         embed.add_field(name="開始時刻",value=time_content,inline=False)
         embed.add_field(name="参加者リスト",value=ctx.author,inline=False)
+        embed.add_field(name="不参加者リスト",value="なし",inline=False)
         
         message = await ctx.send("@everyone",embed=embed)
         
