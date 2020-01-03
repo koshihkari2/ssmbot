@@ -135,7 +135,7 @@ async def wait_react(ctx,msg,start_time):
                 
             embed = msg.embeds[0]
                 
-            tmp = embed.fields[0].value
+            tmp = embed.fields[].value
             embed.set_field_at(1,name="募集人数",value=f"{int(tmp) + 1}")
                 
             await msg.edit(embed=embed)
@@ -145,7 +145,7 @@ async def wait_react(ctx,msg,start_time):
             await ctx.send("募集人数を1人削減します。",delete_after=5.0)
             embed = msg.embeds[0]
                 
-            tmp = embed.fields[0].value
+            tmp = embed.fields[1].value
             
             if int(tmp) == 0:
                 await ctx.send("0人以下に減らすことはできません。",delete_after=5.0)
