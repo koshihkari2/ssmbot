@@ -68,7 +68,7 @@ async def wait_react(ctx,msg,start_time):
             
             content = "\n".join([str(user) for user in summon_users])
             content = content if content else "なし"
-            embed.set_field_at(2,name="参加者リスト",value=content,inline=False)
+            embed.set_field_at(3,name="参加者リスト",value=content,inline=False)
             
             return embed
             
@@ -77,7 +77,7 @@ async def wait_react(ctx,msg,start_time):
             
             content = "\n".join([str(user) for user in bye_users])
             content = content if content else "なし"
-            embed.set_field_at(3,name="不参加者リスト",value=content,inline=False)
+            embed.set_field_at(4,name="不参加者リスト",value=content,inline=False)
             
             return embed
             
@@ -136,7 +136,7 @@ async def wait_react(ctx,msg,start_time):
             embed = msg.embeds[0]
                 
             tmp = embed.fields[0].value
-            embed.set_field_at(0,name="募集人数",value=f"{int(tmp) + 1}")
+            embed.set_field_at(1,name="募集人数",value=f"{int(tmp) + 1}")
                 
             await msg.edit(embed=embed)
             
@@ -151,7 +151,7 @@ async def wait_react(ctx,msg,start_time):
                 await ctx.send("0人以下に減らすことはできません。",delete_after=5.0)
                 continue
                 
-            embed.set_field_at(0,name="募集人数",value=f"{int(tmp) - 1}")
+            embed.set_field_at(1,name="募集人数",value=f"{int(tmp) - 1}")
                 
             await msg.edit(embed=embed)
             
