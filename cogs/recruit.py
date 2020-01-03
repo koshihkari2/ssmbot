@@ -110,23 +110,23 @@ async def wait_react(ctx,msg,start_time):
             if user == ctx.author:
                 await ctx.send(f"{user.name} はリーダーなので不参加に変更できません",delete_after=5.0)
                 
-            elif user in bye_users:                
+            elif user in bye_users:
                 bye_users.remove(user)
                 
                 await msg.edit(embed=bye_embed())
-                await ctx.send(f"{user.name} が不参加を取り消しました",delete_afer=5.0)
+                await ctx.send(f"{user.name} が不参加を取り消しました",delete_after=5.0)
                 
             elif user in summon_users:
                 summon_users.remove(user)
                 bye_users.append(user)
                 
-                await msg.edit(embed=summon_embed())
+                await msg.edit(embed=bye_embed())
                 await ctx.send(f"{user.name} が参加から不参加に変更しました",delete_after=5.0)
                 
             else:
                 bye_users.append(user)
                 
-                await msg.edit(embed=summon_embed())
+                await msg.edit(embed=bye_embed())
                 await ctx.send(f"{user.name} が不参加を表明しました（再度「×」リアクションで取り消せます）",delete_after=5.0)
             
         if (str(reaction.emoji) == "\N{UPWARDS BLACK ARROW}\N{VARIATION SELECTOR-16}") and (user == ctx.author):
