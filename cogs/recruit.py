@@ -135,7 +135,7 @@ async def wait_react(ctx,msg,start_time):
                 
             embed = msg.embeds[0]
                 
-            tmp = embed.fields[].value
+            tmp = embed.fields[1].value
             embed.set_field_at(1,name="募集人数",value=f"{int(tmp) + 1}")
                 
             await msg.edit(embed=embed)
