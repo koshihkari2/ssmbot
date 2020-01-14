@@ -31,7 +31,10 @@ class Spla(commands.Cog,name="スプラトゥーン"):
                 target = target.replace(day=target.day+1)
             target = target.replace(hour=hour - (not hour%2))
         else:
-            target = target.replace(hour=target.hour - (not target.hour%2))
+            tmp = target.hour%24 - (not target.hour%2)
+            if tmp < 0:
+                tmp = 23
+            target = target.replace(hour=tmp)
             
         target_str = target.strftime("%Y-%m-%dT%H:%M:%S")
         url = "https://spla2.yuu26.com/schedule"
