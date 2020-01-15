@@ -33,6 +33,7 @@ class Spla(commands.Cog,name="スプラトゥーン"):
         else:
             # もし、引数なしで呼び出されたら現在のステージ情報を取得
             rules = ["regular","gachi","league"]
+            url = "https://spla2.yuu26.com/"
             stages = []
             session = aiohttp.ClientSession() #セッションを使いまわす
             
