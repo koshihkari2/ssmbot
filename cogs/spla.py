@@ -48,9 +48,9 @@ class Spla(commands.Cog,name="スプラトゥーン"):
 
             content = "__★ナワバリバトルのステージ情報★__\n"
             content += "・**" + "**\n・**".join(stages[0]) + "**\n\n"
-            content = "__★ガチマッチのステージ情報★__\n"
+            content += "__★ガチマッチのステージ情報★__\n"
             content += "・**" + "**\n・**".join(stages[1]) + "**\n\n"
-            content = "__★リーグマッチのステージ情報★__\n"
+            content += "__★リーグマッチのステージ情報★__\n"
             content += "・**" + "**\n・**".join(stages[2]) + "**\n\n"
             
             await ctx.send(content)
