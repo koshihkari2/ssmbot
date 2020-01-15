@@ -33,6 +33,8 @@ class Spla(commands.Cog,name="スプラトゥーン"):
         else:
             # もし、引数なしで呼び出されたら現在のステージ情報を取得
             rules = ["regular","gachi","league"]
+            now_rules = []
+            
             url = "https://spla2.yuu26.com/"
             stages = []
             session = aiohttp.ClientSession() #セッションを使いまわす
@@ -44,13 +46,17 @@ class Spla(commands.Cog,name="スプラトゥーン"):
                         return
                     data = await r.json()
                 stages.append(data["result"][0]["maps"])
+                
+                if rule == "gachi" or rule == "league":
+                    now_rules.append(data["result"][0]["rule"])
+                    
             await session.close()
 
             content = "__★ナワバリバトルのステージ情報★__\n"
             content += "・**" + "**\n・**".join(stages[0]) + "**\n\n"
-            content += "__★ガチマッチのステージ情報★__\n"
+            content += f"__★ガチマッチのステージ情報（{now_rules[0]}）★__\n"
             content += "・**" + "**\n・**".join(stages[1]) + "**\n\n"
-            content += "__★リーグマッチのステージ情報★__\n"
+            content += f"__★リーグマッチのステージ情報（{now_rules[1]}）★__\n"
             content += "・**" + "**\n・**".join(stages[2]) + "**\n\n"
             
             await ctx.send(content)
