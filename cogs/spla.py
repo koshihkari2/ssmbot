@@ -31,10 +31,29 @@ class Spla(commands.Cog,name="スプラトゥーン"):
                 target = target.replace(day=target.day+1)
             target = target.replace(hour=hour - (not hour%2))
         else:
-            tmp = target.hour%24 - (not target.hour%2)
-            if tmp < 0:
-                tmp = 23
-            target = target.replace(hour=tmp)
+            # もし、引数なしで呼び出されたら現在のステージ情報を取得
+            rules = ["regular","gachi","league"]
+            stages = []
+            session = aiohttp.ClientSession() #セッションを使いまわす
+            
+            for rule in rules:
+                async with session.get(f"{url}{rule}/now") as r:
+                    if r.status != 200:
+                        await ctx.send("情報の取得に失敗しました。")
+                        return
+                    data = await r.json()
+                stages.append(data["result"][0]["maps"])
+            await session.close()
+
+            content = "__★ナワバリバトルのステージ情報★__\n"
+            content += "・**" + "**\n・**".join(stages[0]) + "**\n\n"
+            content = "__★ガチマッチのステージ情報★__\n"
+            content += "・**" + "**\n・**".join(stages[1]) + "**\n\n"
+            content = "__★リーグマッチのステージ情報★__\n"
+            content += "・**" + "**\n・**".join(stages[2]) + "**\n\n"
+            
+            await ctx.send(content)
+            return
             
         target_str = target.strftime("%Y-%m-%dT%H:%M:%S")
         url = "https://spla2.yuu26.com/schedule"
