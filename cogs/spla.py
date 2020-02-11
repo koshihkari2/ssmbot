@@ -108,7 +108,7 @@ class Spla(commands.Cog,name="スプラトゥーン"):
         武器ルーレットを行います。
         """
         bukis = []
-        with open("bukis.txt") as f:
+        with open("src/bukis.txt") as f:
             bukis = f.readlines()
         
         await ctx.send(f"ルーレットの結果：{random.choice(bukis)}")
