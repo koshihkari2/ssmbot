@@ -111,7 +111,7 @@ class Spla(commands.Cog,name="スプラトゥーン"):
         with open("bukis.txt") as f:
             bukis = f.readlines()
         
-        await ctx.send(random.choice(bukis))
+        await ctx.send(f"ルーレットの結果：{random.choice(bukis)}")
         
 def setup(bot):
     bot.add_cog(Spla(bot))
