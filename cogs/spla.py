@@ -3,6 +3,7 @@ from discord.ext import commands
 import aiohttp
 
 import datetime
+import random
 
 class Spla(commands.Cog,name="スプラトゥーン"):
     def __init__(self,bot):
@@ -100,6 +101,17 @@ class Spla(commands.Cog,name="スプラトゥーン"):
         content += f"・**{league_stages[1]}**\n\n"
         
         await ctx.send(content)
+        
+    @commands.command()
+    async def bukiru(self,ctx):
+        """
+        武器ルーレットを行います。
+        """
+        bukis = []
+        with open("bukis.txt") as f:
+            bukis = f.readlines()
+        
+        await ctx.send(random.choice(bukis))
         
 def setup(bot):
     bot.add_cog(Spla(bot))
