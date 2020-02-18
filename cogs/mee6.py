@@ -17,7 +17,7 @@ class MeeSix(commands.Cog,name="Mee6"):
             players = result["players"][:25]
             for i,player in enumerate(players):
                 tmp = f"レベル：{player['level']}\nメッセージ数：{player['message_count']}\n経験値：{player['xp']}"
-                embed.add_field(name=f"{player.username} ({i + 1} 位)",value=tmp)
+                embed.add_field(name=f"{player['username']} ({i + 1} 位)",value=tmp)
                 
             await message.channel.send(embed=embed)
 
