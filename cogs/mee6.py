@@ -14,10 +14,10 @@ class MeeSix(commands.Cog,name="Mee6"):
             result = await api.levels.get_leaderboard_page(0)
             embed = discord.Embed(title=f"{message.guild.name} 詳細順位表 (Top25)",color=0x00ffff)
             
-            players = result["players"][:25]
+            players = result["players"][:10]
             for i,player in enumerate(players):
                 tmp = f"レベル：{player['level']}\nメッセージ数：{player['message_count']}\n経験値：{player['xp']}"
-                embed.add_field(name=f"{player['username']} ({i + 1} 位)",value=tmp,inline=False)
+                embed.add_field(name=f"{player['username']} ({i + 1} 位)",value=tmp,inline=bool(i%2))
                 
             await message.channel.send(embed=embed)
 
