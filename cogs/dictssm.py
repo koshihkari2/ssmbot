@@ -1,11 +1,36 @@
 from discord.ext import commands
 import discord
 import ast
+import random
 
-class DictSSMCog(commands.Cog,name="辞書"):
+class DictSSMCog(commands.Cog,name="その他"):
     def __init__(self, bot):
         self.bot = bot
+        self.last_history_id = 0
         
+    @commands.command()
+    async def secret(self,ctx):
+        """
+        「SSーM㊙情報」チャンネルから㊙情報をランダムで返信します。
+        """
+        CH_ID = 606803266218491925
+        CH = self.bot.get_channel(CH_ID)
+        secret_emoji = "\N{CIRCLED IDEOGRAPH SECRET}\N{VARIATION SELECTOR-16}"
+        msgs = await CH.history(limit=None).flatten()
+        secret_msgs = [msg for msg in msgs if msg.content.startswith(f"SSーM{secret_emoji}情報\n")]
+        
+        while True:
+            tmp = random.choice(secret_msgs)
+            content = tmp.content.split("\n")
+            if len(content) <= 1:
+                # 本文が含まれていない
+                continue
+            embed = discord.Embed(title=f"SSーM{secret_emoji}情報",description=content[1],color=0x00ff00)
+            embed.set_author(name=tmp.author.name,icon_url=tmp.author.avatar_url_as(format=png))
+            await ctx.send(embed=embed)
+            break
+        
+    '''
     @commands.Cog.listener()
     async def on_ready(self):
         channel = self.bot.get_channel()
@@ -30,6 +55,7 @@ class DictSSMCog(commands.Cog,name="辞書"):
         if page_num <= 0 or len(self.pages) < page_num:
             await ctx.send(f"ページ数の有効範囲は {1} ～ {len(self.pages)} です。")
         await ctx.send(embed=self.pages[page_num])
+    '''
         
 def setup(bot):
     bot.add_cog(DictSSMCog(bot))
