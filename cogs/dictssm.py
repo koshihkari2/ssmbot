@@ -12,13 +12,15 @@ class DictSSMCog(commands.Cog,name="SSーM"):
     async def secret(self,ctx):
         """
         「SSーM㊙情報」チャンネルから㊙情報をランダムで返信します。
+        
+        https://discord.gg/XYMZkM2 に投稿することで追加できます。
         """
         CH_ID = 606803266218491925
         CH = self.bot.get_channel(CH_ID)
         secret_emoji = "\N{CIRCLED IDEOGRAPH SECRET}\N{VARIATION SELECTOR-16}"
 
         msgs = await CH.history(limit=None).flatten()
-        secret_msgs = [msg for msg in msgs if msg.content.startswith(f"SSーM{secret_emoji}情報\n")]
+        secret_msgs = [msg for msg in msgs if f"{secret_emoji}情報\n" in msg.content]
         
         while True:
             tmp = random.choice(secret_msgs)
@@ -26,7 +28,7 @@ class DictSSMCog(commands.Cog,name="SSーM"):
             if len(content) <= 1:
                 # 本文が含まれていない
                 continue
-            embed = discord.Embed(title=f"SSーM{secret_emoji}情報",description=content[1],color=0x00ff00)
+            embed = discord.Embed(title=content[0],description="\n".join(content[1:]),color=0x00ff00)
             embed.set_author(name=tmp.author.name,icon_url=tmp.author.avatar_url_as(format="png"))
             await ctx.send(embed=embed)
             break
