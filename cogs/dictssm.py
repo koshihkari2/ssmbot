@@ -8,7 +8,7 @@ class DictSSMCog(commands.Cog,name="SSーM"):
         self.bot = bot
         self.last_history_id = 0
         
-    @commands.command(name="\N{CIRCLED IDEOGRAPH SECRET}\N{VARIATION SELECTOR-16}情報")
+    @commands.command(aliases=["秘情報"])
     async def secret(self,ctx):
         """
         「SSーM㊙情報」チャンネルから㊙情報をランダムで返信します。
