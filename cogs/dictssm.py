@@ -3,7 +3,7 @@ import discord
 import ast
 import random
 
-class DictSSMCog(commands.Cog,name="その他"):
+class DictSSMCog(commands.Cog,name="SSーM"):
     def __init__(self, bot):
         self.bot = bot
         self.last_history_id = 0
@@ -26,7 +26,7 @@ class DictSSMCog(commands.Cog,name="その他"):
                 # 本文が含まれていない
                 continue
             embed = discord.Embed(title=f"SSーM{secret_emoji}情報",description=content[1],color=0x00ff00)
-            embed.set_author(name=tmp.author.name,icon_url=tmp.author.avatar_url_as(format=png))
+            embed.set_author(name=tmp.author.name,icon_url=tmp.author.avatar_url_as(format="png"))
             await ctx.send(embed=embed)
             break
         
