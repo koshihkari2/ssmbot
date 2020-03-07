@@ -4,6 +4,7 @@ import aiohttp
 
 import datetime
 import random
+import numpy as np
 
 class Spla(commands.Cog,name="スプラトゥーン"):
     def __init__(self,bot):
@@ -112,6 +113,35 @@ class Spla(commands.Cog,name="スプラトゥーン"):
             bukis = f.readlines()
         
         await ctx.send(f"ルーレットの結果：{random.choice(bukis)}")
+        
+    @commands.command()
+    async def team(self,ctx,channel_name):
+        """
+        ランダムでチーム分けを行い、コマンド実行者のボイスチャンネルと、指定された名前のボイスチャンネルとにメンバーを振り分けます。
+        引数には割り当て先のボイスチャンネル名を入力します。
+        """
+        if ctx.author.voice is None or ctx.author.voice.channel is None:
+            await ctx.send("あなたが参加しているボイスチャンネルを取得できませんでした。")
+            
+        channel = discord.utils.get(ctx.guild.voice_channels,name=channel_name)
+        if channel is None:
+            await ctx.send("指定されたボイスチャンネルが見つかりませんでした。")
+            return
+        
+        members = [member for member in ctx.author.voice.channel.members + channel.members if not member.bot]
+        channels = [ctx.author.voice_channel,channel]
+        random.shuffle(members)
+        tmp = np.array_split(members,2)
+        reply = "**チーム分けの結果：**"
+        
+        for i,array in enumerate(tmp):
+            members_name = [member.name for member in list(array)]
+            reply += f"チーム{i+1} ： ```{'\n'.join(members_name)}```\n"
+            
+            for member in list(array):
+                await member.move_to(channels[i])
+        
+        await ctx.send(reply)
         
 def setup(bot):
     bot.add_cog(Spla(bot))
