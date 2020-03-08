@@ -129,7 +129,7 @@ class Spla(commands.Cog,name="スプラトゥーン"):
             return
         
         members = [member for member in ctx.author.voice.channel.members + channel.members if not member.bot]
-        channels = [ctx.author.voice_channel,channel]
+        channels = [ctx.author.voice.channel,channel]
         random.shuffle(members)
         tmp = np.array_split(members,2)
         reply = "**チーム分けの結果：**"
