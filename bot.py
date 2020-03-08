@@ -17,6 +17,10 @@ class JapaneseHelpCommand(commands.DefaultHelpCommand):
 
     def get_ending_note(self):
         return ("各コマンドの説明: _help コマンド名\n各カテゴリの説明: _help カテゴリ名\n")
+    
+if not discord.opus.is_loaded(): 
+    #もし未ロードだったら
+    discord.opus.load_opus("heroku-buildpack-libopus")
 
 class DiscordBot(commands.Bot):
     def __init__(self,command_prefix,help_command):
