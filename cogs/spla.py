@@ -133,10 +133,11 @@ class Spla(commands.Cog,name="スプラトゥーン"):
         random.shuffle(members)
         tmp = np.array_split(members,2)
         reply = "**チーム分けの結果：**"
+        nl = "\n"
         
         for i,array in enumerate(tmp):
             members_name = [member.name for member in list(array)]
-            reply += f"チーム{i+1} ： ```{'\n'.join(members_name)}```\n"
+            reply += f"チーム{i+1} ： ```{nl.join(members_name)}```{nl}"
             
             for member in list(array):
                 await member.move_to(channels[i])
