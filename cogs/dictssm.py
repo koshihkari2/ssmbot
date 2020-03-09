@@ -28,7 +28,7 @@ class DictSSMCog(commands.Cog,name="SSーM"):
             self.bot.messages = await CH.history(limit=None).flatten()
         else:
             tmp = self.bot.messages[-1]
-            self.bot.messages += await CH.history(limit=None,after=tmp.created_at)
+            self.bot.messages += await CH.history(limit=None,after=tmp.created_at).flatten()
         secret_msgs = [msg for msg in self.bot.messages if f"{secret_emoji}情報\n" in msg.content]
         
         while True:
