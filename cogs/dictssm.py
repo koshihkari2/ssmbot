@@ -6,7 +6,12 @@ import random
 class DictSSMCog(commands.Cog,name="SSーM"):
     def __init__(self, bot):
         self.bot = bot
-        self.last_history_id = 0
+       
+    @commands.Cog.listener()
+    async def on_ready(self):
+        CH_ID = 606803266218491925
+        CH = self.bot.get_channel(CH_ID)
+        self.bot.messages = await CH.history(limit=None).flatten()
         
     @commands.command(aliases=["秘情報"])
     async def secret(self,ctx):
@@ -18,9 +23,13 @@ class DictSSMCog(commands.Cog,name="SSーM"):
         CH_ID = 606803266218491925
         CH = self.bot.get_channel(CH_ID)
         secret_emoji = "\N{CIRCLED IDEOGRAPH SECRET}\N{VARIATION SELECTOR-16}"
-
-        msgs = await CH.history(limit=None).flatten()
-        secret_msgs = [msg for msg in msgs if f"{secret_emoji}情報\n" in msg.content]
+        
+        if not self.bot.messages:
+            self.bot.messages = await CH.history(limit=None).flatten()
+        else:
+            tmp = self.bot.messages[-1]
+            self.bot.messages += await CH.history(limit=None,after=tmp.created_at)
+        secret_msgs = [msg for msg in self.bot.messages if f"{secret_emoji}情報\n" in msg.content]
         
         while True:
             tmp = random.choice(secret_msgs)
