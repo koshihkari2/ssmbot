@@ -46,5 +46,28 @@ class VoiceCog(commands.Cog,name="音声関連"):
             await member.move_to(channel_A)
         await ctx.send("参加者の移動が完了しました。")
         
+    
+    @commands.command()
+    async def play(ctx):
+        """添付されたmp3ファイルを流します。"""
+        voice_client = ctx.message.guild.voice_client
+
+        if not voice_client:
+            await ctx.send("Botはこのサーバーのボイスチャンネルに参加していません。")
+            return
+
+        if not ctx.message.attachments:
+            await ctx.send("ファイルが添付されていません。")
+            return
+        
+        if not ctx.message.attachments[0].filename.endswith("mp3"):
+            await ctx.send("拡張子がmp3ではないファイルが添付されました。")
+        await ctx.message.attachments[0].save("tmp.mp3")
+
+        ffmpeg_audio_source = discord.FFmpegPCMAudio("tmp.mp3")
+        voice_client.play(ffmpeg_audio_source)
+
+        await ctx.send(f"**{ctx.message.attachments[0].filename[:4]}** を再生中・・・")
+        
 def setup(bot):
     bot.add_cog(VoiceCog(bot))
