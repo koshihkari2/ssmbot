@@ -48,7 +48,7 @@ class VoiceCog(commands.Cog,name="音声関連"):
         
     
     @commands.command()
-    async def play(ctx):
+    async def play(self,ctx):
         """添付されたmp3ファイルを流します。"""
         voice_client = ctx.message.guild.voice_client
 
