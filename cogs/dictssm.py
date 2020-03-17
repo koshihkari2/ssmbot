@@ -41,6 +41,55 @@ class DictSSMCog(commands.Cog,name="SSーM"):
             embed.set_author(name=tmp.author.name,icon_url=tmp.author.avatar_url_as(format="png"))
             await ctx.send(embed=embed)
             break
+            
+    @commands.command()
+    async def color(self,ctx,color_cord="ffffff"):
+        """
+        色のついた役職を付与します。
+        
+        ```
+        _color ff0000
+        ```
+        と送信した場合、カラーコード「#FF0000」に対応する赤色の役職が付与されます。
+        """
+        color_rgb = int(color_rgb_str,16)
+        
+        if color_rgb > 0xffffff:
+            await ctx.send("正しい色コードが指定されませんでした。色コードについては")
+            return
+        
+        before_roles = list(filter(lambda role:role.name.startswith("color:#"),ctx.guild.roles))
+        if before_roles:
+            # もし、既にcolorコマンドによって何らかの色を取得していれば、それを剥奪する
+            await ctx.author.remove_roles(before_roles,reason="colorコマンド実行に伴う剥奪。")
+        
+        role_name = f"color:#{color_cord.upper()}"
+        new_role = discord.utils.get(ctx.guild.roles,name=role_name)
+        
+        if new_role is None:
+            # もし、まだその色の役職が作成されていなければ、作成する
+            new_role = await ctx.guild.create_role(name=role_name,colour=discord.Colour(color_rgb),
+                                                   mentionable=False,reason="colorコマンドによる自動生成。")
+        
+        await ctx.author.add_roles(new_role,reason="colorコマンド実行による自動付与。")
+        await ctx.send(f"カラーコード `#{role_name}` の役職を付与しました。delcolorコマンドによってこの役職を剥奪できます。")
+        
+    @commands.command()
+    async def delcolor(self,ctx):
+        """
+        既にcolorコマンドなどにより色のついた役職が付与されている場合、それを剥奪します。
+        """
+        roles = list(filter(lambda role:role.name.startswith("color:#"),ctx.guild.roles))
+        
+        if not roles:
+            await ctx.send("`color:#カラーコード` の形式の名前の役職があなたには付与されていません。")
+            return
+        await ctx.author.remove_roles(roles,reason="delcolorコマンドによる剥奪。")
+        
+        for role in roles:
+            if len(role.members) == 0:
+                await role.delete(reason="delcolorコマンドの実行に伴いこの役職を持つメンバー数が0になったため自動削除。")
+        await ctx.send("役職の剥奪を完了しました。")
         
     '''
     @commands.Cog.listener()
