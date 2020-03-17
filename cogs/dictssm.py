@@ -53,9 +53,10 @@ class DictSSMCog(commands.Cog,name="SSーM"):
         と送信した場合、カラーコード「#FF0000」に対応する赤色の役職が付与されます。
         """
         color_rgb = int(color_rgb_str,16)
+        url = "https://www.colordic.org/"
         
         if color_rgb > 0xffffff:
-            await ctx.send("正しい色コードが指定されませんでした。色コードについては")
+            await ctx.send(f"正しいカラーコードが指定されませんでした。カラーコードについては {url} などを参照してください。")
             return
         
         before_roles = list(filter(lambda role:role.name.startswith("color:#"),ctx.guild.roles))
