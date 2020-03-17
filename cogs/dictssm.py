@@ -61,7 +61,7 @@ class DictSSMCog(commands.Cog,name="SSーM"):
         before_roles = list(filter(lambda role:role.name.startswith("color:#"),ctx.guild.roles))
         if before_roles:
             # もし、既にcolorコマンドによって何らかの色を取得していれば、それを剥奪する
-            await ctx.author.remove_roles(before_roles,reason="colorコマンド実行に伴う剥奪。")
+            await ctx.author.remove_roles(*before_roles,reason="colorコマンド実行に伴う剥奪。")
         
         role_name = f"color:#{color_cord.upper()}"
         new_role = discord.utils.get(ctx.guild.roles,name=role_name)
