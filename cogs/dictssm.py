@@ -47,12 +47,11 @@ class DictSSMCog(commands.Cog,name="SSーM"):
         """
         色のついた役職を付与します。
         
-        ```
         _color ff0000
-        ```
+        
         と送信した場合、カラーコード「#FF0000」に対応する赤色の役職が付与されます。
         """
-        color_rgb = int(color_rgb_str,16)
+        color_rgb = int(color_cord,16)
         url = "https://www.colordic.org/"
         
         if color_rgb > 0xffffff:
