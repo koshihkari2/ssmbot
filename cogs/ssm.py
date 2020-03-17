@@ -3,7 +3,10 @@ import discord
 import ast
 import random
 
-class DictSSMCog(commands.Cog,name="SSーM"):
+class SSMCog(commands.Cog,name="SSーM"):
+    """
+    使用範囲がSSーMに限定される（と思われる）機能の実装。
+    """
     def __init__(self, bot):
         self.bot = bot
        
@@ -62,6 +65,10 @@ class DictSSMCog(commands.Cog,name="SSーM"):
         if before_roles:
             # もし、既にcolorコマンドによって何らかの色を取得していれば、それを剥奪する
             await ctx.author.remove_roles(*before_roles,reason="colorコマンド実行に伴う剥奪。")
+            
+            for role in before_roles:
+                if len(role.members) == 0:
+                    await role.delete(reason="delcolorコマンドの実行に伴いこの役職を持つメンバー数が0になったため自動削除。")
         
         role_name = f"color:#{color_cord.upper()}"
         new_role = discord.utils.get(ctx.guild.roles,name=role_name)
@@ -119,4 +126,4 @@ class DictSSMCog(commands.Cog,name="SSーM"):
     '''
         
 def setup(bot):
-    bot.add_cog(DictSSMCog(bot))
+    bot.add_cog(SSMCog(bot))
