@@ -79,7 +79,7 @@ class DictSSMCog(commands.Cog,name="SSーM"):
         """
         既にcolorコマンドなどにより色のついた役職が付与されている場合、それを剥奪します。
         """
-        roles = list(filter(lambda role:role.name.startswith("color:#"),ctx.guild.roles))
+        roles = list(filter(lambda role:role.name.startswith("color:#"),ctx.author.roles))
         
         if not roles:
             await ctx.send("`color:#カラーコード` の形式の名前の役職があなたには付与されていません。")
