@@ -84,7 +84,7 @@ class DictSSMCog(commands.Cog,name="SSーM"):
         if not roles:
             await ctx.send("`color:#カラーコード` の形式の名前の役職があなたには付与されていません。")
             return
-        await ctx.author.remove_roles(roles,reason="delcolorコマンドによる剥奪。")
+        await ctx.author.remove_roles(*roles,reason="delcolorコマンドによる剥奪。")
         
         for role in roles:
             if len(role.members) == 0:
