@@ -14,7 +14,7 @@ class SearchCog(commands.Cog,name="画像検索"):
     def __init__(self,bot):
         self.bot = bot
     @commands.command(aliases=["im"])
-    async def image(self,ctx,search_word):
+    async def image(self,ctx,*,search_word):
         """
         指定されたキーワードでGoogleの画像検索を行い結果を表示します。
         """
