@@ -2,3 +2,4 @@ discord.py[voice] == 1.2.5
 Pillow
 mee6-py-api
 numpy
+google-api-python-client
