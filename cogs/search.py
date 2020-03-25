@@ -41,18 +41,18 @@ class SearchCog(commands.Cog,name="画像検索"):
             try:
                 new_msg = await self.bot.wait_for("message",check=check,timeout=20.0)
             except asyncio.TimeoutError:
-                await message.edit(content="ページ変更を終了します。",embed=None)
+                await message.edit(content="ページ変更を終了しました。")
                 return
             else:
                 if new_msg.content == "e":
-                    await message.edit(content="ページ変更を終了します。",embed=None)
+                    await message.edit(content="ページ変更を終了しました。")
                     return
                 if new_msg.content in ["n","N"]:
                     page_number += 1
                     if page_number == len(img_list):
                         # 最後まで参照したら
                         startIndex += 1
-                        response = service.cse().list(q=search_word,cx='012128120168530062053:vuy1ayoq6kc',
+                        response = service.cse().list(q=search_word,cx=os.environ['CSE_ID'],
                                                       lr='lang_ja',searchType='image',start=startIndex*10+1).execute()
                         if len(response['items']) > 0:
                             for i in response['items']:
