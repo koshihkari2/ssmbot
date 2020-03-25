@@ -5,7 +5,7 @@ import os
 import traceback
 
 
-EXT = ["cogs.recruit","cogs.sym","cogs.spla","cogs.open_link","cogs.mee6","cogs.ssm","cogs.voice"]
+EXT = ["cogs.recruit","cogs.sym","cogs.spla","cogs.open_link","cogs.mee6","cogs.ssm","cogs.voice","cogs.search"]
 token = os.environ.get("TOKEN","")
 
 class JapaneseHelpCommand(commands.DefaultHelpCommand):
