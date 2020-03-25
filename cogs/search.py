@@ -37,7 +37,7 @@ class SearchCog(commands.Cog,name="画像検索"):
         def check(m):
             return m.content in ["n","N","e","b"] and m.author == ctx.author and m.channel == ctx.channel
 
-        while not bot.is_closed():
+        while not self.bot.is_closed():
             try:
                 new_msg = await self.bot.wait_for("message",check=check,timeout=20.0)
             except asyncio.TimeoutError:
