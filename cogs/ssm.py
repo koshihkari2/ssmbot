@@ -98,6 +98,30 @@ class SSMCog(commands.Cog,name="SSーM"):
                 await role.delete(reason="delcolorコマンドの実行に伴いこの役職を持つメンバー数が0になったため自動削除。")
         await ctx.send("役職の剥奪を完了しました。")
         
+    @commands.command()
+    async def room(self,ctx,room_name):
+        """
+        SSーMサーバー内の「〇〇の部屋」の閲覧権限を取得します。
+        """
+        guild = self.bot.get_guild()
+        if ctx.guild != guild:
+            await ctx.send("このサーバーでは room コマンドを実行できません。")
+            return
+        room_category = self.bot.get_channel(692346276846764114)
+        room = discord.utils.get(guild.category_channels,name=room_name)
+        if room is None:
+            await ctx.send(f"チャンネル **{room_name}** は見つかりませんでした。")
+            return
+        if not room in room_category.channels:
+            await ctx.send(f"チャンネル **{room_name}** は「〇〇の部屋」に分類されていません。")
+            return
+        role = discord.utils.get(guild.roles,name=room_name)
+        if role is None:
+            await ctx.send(f"役職 **{room_name}** は見つかりませんでした。")
+            return
+        await ctx.author.add_roles(role)
+        await ctx.send(f"チャンネル **{room_name}** の閲覧権限を付与しました。")
+        
     '''
     @commands.Cog.listener()
     async def on_ready(self):
