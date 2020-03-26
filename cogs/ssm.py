@@ -103,7 +103,7 @@ class SSMCog(commands.Cog,name="SSーM"):
         """
         SSーMサーバー内の「〇〇の部屋」の閲覧権限を取得します。
         """
-        guild = self.bot.get_guild()
+        guild = self.bot.get_guild(623449115178565642)
         if ctx.guild != guild:
             await ctx.send("このサーバーでは room コマンドを実行できません。")
             return
