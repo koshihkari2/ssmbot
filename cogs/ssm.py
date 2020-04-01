@@ -12,7 +12,7 @@ class SSMCog(commands.Cog,name="SSーM"):
        
     @commands.Cog.listener()
     async def on_ready(self):
-        CH_ID = 606803266218491925
+        CH_ID = 693010352568270858
         CH = self.bot.get_channel(CH_ID)
         self.bot.messages = await CH.history(limit=None).flatten()
         
@@ -23,7 +23,7 @@ class SSMCog(commands.Cog,name="SSーM"):
         
         https://discord.gg/XYMZkM2 に投稿することで追加できます。
         """
-        CH_ID = 606803266218491925
+        CH_ID = 693010352568270858
         CH = self.bot.get_channel(CH_ID)
         secret_emoji = "\N{CIRCLED IDEOGRAPH SECRET}\N{VARIATION SELECTOR-16}"
         
@@ -97,57 +97,6 @@ class SSMCog(commands.Cog,name="SSーM"):
             if len(role.members) == 0:
                 await role.delete(reason="delcolorコマンドの実行に伴いこの役職を持つメンバー数が0になったため自動削除。")
         await ctx.send("役職の剥奪を完了しました。")
-        
-    @commands.command()
-    async def room(self,ctx,room_name):
-        """
-        SSーMサーバー内の「〇〇の部屋」の閲覧権限を取得します。
-        """
-        guild = self.bot.get_guild(623449115178565642)
-        if ctx.guild != guild:
-            await ctx.send("このサーバーでは room コマンドを実行できません。")
-            return
-        room_category = self.bot.get_channel(692346276846764114)
-        room = discord.utils.get(guild.category_channels,name=room_name)
-        if room is None:
-            await ctx.send(f"チャンネル **{room_name}** は見つかりませんでした。")
-            return
-        if not room in room_category.channels:
-            await ctx.send(f"チャンネル **{room_name}** は「〇〇の部屋」に分類されていません。")
-            return
-        role = discord.utils.get(guild.roles,name=room_name)
-        if role is None:
-            await ctx.send(f"役職 **{room_name}** は見つかりませんでした。")
-            return
-        await ctx.author.add_roles(role)
-        await ctx.send(f"チャンネル **{room_name}** の閲覧権限を付与しました。")
-        
-    '''
-    @commands.Cog.listener()
-    async def on_ready(self):
-        channel = self.bot.get_channel()
-        msg = await channel.fetch_message()
-        tmp = ast.literal_eval(msg.content)
-        
-        self.pages = [discord.Embed(title=elem.split("\n")[0],description=elem.split("\n")[1:]) for elem in tmp]
-        txt = [f"{i+1} : {elem.split('\n')[0]}" for i,elem in enumerate(tmp)]
-        self.pages.insert(0,discord.Embed(title="辞書",description="```"+"\n".join(txt)+"```"))
-        
-    def return_embed(self,page_num=0):
-        return self.pages[page_num]
-        
-    @commands.group(name="dict")
-    async def dict_(self,ctx):
-        if ctx.invoked_subcommand is not None:
-            # もし、サブコマンドを指定されているなら処理しない
-            return
-            
-    @dict_.command()
-    async def page(self,ctx,page_num=1):
-        if page_num <= 0 or len(self.pages) < page_num:
-            await ctx.send(f"ページ数の有効範囲は {1} ～ {len(self.pages)} です。")
-        await ctx.send(embed=self.pages[page_num])
-    '''
-        
+                        
 def setup(bot):
     bot.add_cog(SSMCog(bot))
