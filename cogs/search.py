@@ -64,7 +64,7 @@ class SearchCog(commands.Cog,name="画像検索"):
                     embed.set_footer(text=f"{len(img_list)} ページ中 {page_number} ページを参照中")
                     await message.edit(embed=embed)
                     await new_msg.delete()
-                if new_msg.content == "e":
+                if new_msg.content in ["b","B"]:
                     page_number -= 1
                     if page_number == -1:
                         page_number += 1
