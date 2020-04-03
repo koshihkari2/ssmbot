@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 import ast
 import random
+import csv
 
 class SSMCog(commands.Cog,name="SSーM"):
     """
@@ -97,6 +98,18 @@ class SSMCog(commands.Cog,name="SSーM"):
             if len(role.members) == 0:
                 await role.delete(reason="delcolorコマンドの実行に伴いこの役職を持つメンバー数が0になったため自動削除。")
         await ctx.send("役職の剥奪を完了しました。")
+        
+    @commands.command(aliases=["randao"])
+    async def randomaoao(self,ctx):
+        """
+        ランダム蒼aoします。
+        """
+        with open("src/aoaos.csv") as f:
+            reader = csv.reader(f)
+            elem = random.choice(reader)
+            embed = discord.Embed(title="randomAoao",description=f"画像内容：{elem[0]}",color=0x00ff00)
+            embed.set_image(url=elem[1])
+            await ctx.send(embed=embed)
                         
 def setup(bot):
     bot.add_cog(SSMCog(bot))
