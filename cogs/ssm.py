@@ -106,7 +106,8 @@ class SSMCog(commands.Cog,name="SSーM"):
         """
         with open("src/aoaos.csv") as f:
             reader = csv.reader(f)
-            elem = random.choice(reader)
+            elems = [row for row in reader]
+            elem = random.choice(elems)
             embed = discord.Embed(title="randomAoao",description=f"画像内容：{elem[0]}",color=0x00ff00)
             embed.set_image(url=elem[1])
             await ctx.send(embed=embed)
