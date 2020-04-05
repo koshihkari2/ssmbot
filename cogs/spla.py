@@ -113,10 +113,10 @@ class Spla(commands.Cog,name="スプラトゥーン"):
             bukis = f.readlines()
         members = [ctx.author]
         if mode == "ch" and ctx.author.voice is not None:
-            members = ctx.author.voice.channel.members
+            members = [member for member in ctx.author.voice.channel.members if not member.bot]
         content = "**ルーレットの結果**\n"
         for member in members:
-            content += f"{member}：{random.choice(bukis)}"
+            content += f"{member.mention}：{random.choice(bukis)}"
         
         await ctx.send(content)
         
