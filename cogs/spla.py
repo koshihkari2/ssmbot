@@ -104,15 +104,21 @@ class Spla(commands.Cog,name="スプラトゥーン"):
         await ctx.send(content)
         
     @commands.command()
-    async def bukiru(self,ctx):
+    async def bukiru(self,ctx,mode=""):
         """
         武器ルーレットを行います。
         """
         bukis = []
         with open("src/bukis.txt") as f:
             bukis = f.readlines()
+        members = [ctx.author]
+        if mode == "ch" and ctx.author.voice is not None:
+            members = ctx.author.voice.channel.members
+        content = "**ルーレットの結果**\n"
+        for member in members:
+            content += f"{member}：{random.choice(bukis)}"
         
-        await ctx.send(f"ルーレットの結果：{random.choice(bukis)}")
+        await ctx.send(content)
         
     @commands.command()
     async def team(self,ctx,channel_name):
