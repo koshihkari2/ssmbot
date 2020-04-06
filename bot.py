@@ -5,16 +5,8 @@ import os
 import traceback
 import glob
 
-import os
-path = ''
-for d, s, f in os.walk(path):
-    print('')
-    print('── {}'.format(d))
-    print(' └── {}'.format(s))
-    print('   └── {}'.format(f))
-
 files = glob.glob("cogs/*")
-EXT = [f"{cogs.file_name}" for file_name in files]
+EXT = [f"cogs.{file_name}" for file_name in files]
 token = os.environ.get("TOKEN","")
 
 class JapaneseHelpCommand(commands.DefaultHelpCommand):
