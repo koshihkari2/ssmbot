@@ -104,15 +104,33 @@ class Spla(commands.Cog,name="スプラトゥーン"):
         await ctx.send(content)
         
     @commands.command()
-    async def bukiru(self,ctx,mode=""):
+    async def bukiru(self,ctx,*settings):
         """
         武器ルーレットを行います。
         """
         bukis = []
+        buki_settings = [setting for setting in settings if setting != "ch"] # 武器名の検索文字列リスト
+        
+        or_settings = [setting for setting in buki_settings if not setting.startswith("-")] # OR検索する武器名
+        not_settings = [setting for setting in buki_settings if setting.startswith("-")] # NOT検索する武器名
         with open("src/bukis.txt") as f:
-            bukis = f.readlines()
+            lines = f.readlines()
+            
+        for line in lines:
+            # もしOR検索が設定されているなら、その単語が含まれている武器のみを抜き出す
+            if or_settings:
+                if not any(setting in line for setting in or_settings):
+                    # 検索単語が一切含まれていないので、これは検索対象に入らない
+                    break
+            # もしNOT検索が設定されているなら、その単語が含まれていた時点で検索対象から外す
+            if not_settings:
+                if any(setting in line for setting in not_settings):
+                    # 検索単語が含まれていたので、これは検索対象に入らない
+                    break
+            bukis.append(line)
+                    
         members = [ctx.author]
-        if mode == "ch" and ctx.author.voice is not None:
+        if settings in "ch" and ctx.author.voice is not None:
             members = [member for member in ctx.author.voice.channel.members if not member.bot]
         content = "**ルーレットの結果**\n"
         for member in members:
