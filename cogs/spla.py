@@ -112,7 +112,7 @@ class Spla(commands.Cog,name="スプラトゥーン"):
         buki_settings = [setting for setting in settings if setting != "ch"] # 武器名の検索文字列リスト
         
         or_settings = [setting for setting in buki_settings if not setting.startswith("-")] # OR検索する武器名
-        not_settings = [setting for setting in buki_settings if setting.startswith("-")] # NOT検索する武器名
+        not_settings = [setting[1:] for setting in buki_settings if setting.startswith("-")] # NOT検索する武器名
         with open("src/bukis.txt") as f:
             lines = f.readlines()
             
@@ -121,12 +121,11 @@ class Spla(commands.Cog,name="スプラトゥーン"):
             if or_settings:
                 if not any(setting in line for setting in or_settings):
                     # 検索単語が一切含まれていないので、これは検索対象に入らない
-                    break
-            # もしNOT検索が設定されているなら、その単語が含まれていた時点で検索対象から外す
+                    continue
             if not_settings:
                 if any(setting in line for setting in not_settings):
                     # 検索単語が含まれていたので、これは検索対象に入らない
-                    break
+                    continue
             bukis.append(line)
                     
         members = [ctx.author]
