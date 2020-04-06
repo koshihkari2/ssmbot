@@ -130,7 +130,7 @@ class Spla(commands.Cog,name="スプラトゥーン"):
             bukis.append(line)
                     
         members = [ctx.author]
-        if settings in "ch" and ctx.author.voice is not None:
+        if "ch" in settings and ctx.author.voice is not None:
             members = [member for member in ctx.author.voice.channel.members if not member.bot]
         content = "**ルーレットの結果**\n"
         for member in members:
