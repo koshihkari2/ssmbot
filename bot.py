@@ -6,7 +6,7 @@ import traceback
 import glob
 
 files = glob.glob("cogs/*")
-EXT = [file_name.replace("/",".") for file_name in files]
+EXT = [file_name.replace("/",".").replace(".py","") for file_name in files]
 token = os.environ.get("TOKEN","")
 
 class JapaneseHelpCommand(commands.DefaultHelpCommand):
