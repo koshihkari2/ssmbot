@@ -3,9 +3,10 @@ from discord.ext import commands
 
 import os
 import traceback
+import glob
 
-
-EXT = ["cogs.recruit","cogs.sym","cogs.spla","cogs.open_link","cogs.mee6","cogs.ssm","cogs.voice","cogs.search"]
+files = glob.glob("/cogs/*")
+EXT = [f"{cogs.file_name}" for file_name in files]
 token = os.environ.get("TOKEN","")
 
 class JapaneseHelpCommand(commands.DefaultHelpCommand):
@@ -18,10 +19,6 @@ class JapaneseHelpCommand(commands.DefaultHelpCommand):
     def get_ending_note(self):
         return ("各コマンドの説明: _help コマンド名\n各カテゴリの説明: _help カテゴリ名\n")
     
-if not discord.opus.is_loaded(): 
-    #もし未ロードだったら
-    discord.opus.load_opus("heroku-buildpack-libopus")
-
 class DiscordBot(commands.Bot):
     def __init__(self,command_prefix,help_command):
         super().__init__(command_prefix,help_command)
